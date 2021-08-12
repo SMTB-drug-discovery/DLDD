@@ -1,27 +1,14 @@
-from argparse import ArgumentParser
-
-import numpy as np
-import torch
 import torch.nn.functional as F
 from torch.functional import Tensor
 from torch.nn import Embedding
 from torch_geometric.nn import global_mean_pool
 from torch_geometric.typing import Adj
-from torchmetrics.functional import accuracy, auroc, matthews_corrcoef
+from torchmetrics.functional import accuracy, auroc
 
-from ..layers import MLP, ChebConvNet, DiffPoolNet, GatConvNet, GINConvNet, GMTNet, MeanPool, NoneNet
-from ..utils import remove_arg_prefix
+from ..layers import MLP, GINConvNet
 from ..utils.data import TwoGraphData
 from .base_model import BaseModel
-
-node_embedders = {
-    "ginconv": GINConvNet,
-    "chebconv": ChebConvNet,
-    "gatconv": GatConvNet,
-    "none": NoneNet,
-}
-poolers = {"gmt": GMTNet, "diffpool": DiffPoolNet, "mean": MeanPool}
-
+import torch
 
 class ClassificationModel(BaseModel):
     """Model for DTI prediction as a classification problem"""
