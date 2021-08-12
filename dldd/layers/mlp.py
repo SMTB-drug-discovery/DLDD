@@ -3,7 +3,7 @@ from os import stat
 from torch import nn
 from torch.functional import Tensor
 
-from ..base_layer import BaseLayer
+from .base_layer import BaseLayer
 
 
 class MLP(BaseLayer):

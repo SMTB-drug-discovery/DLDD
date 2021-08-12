@@ -7,7 +7,6 @@
 __*__/
 __pycache__/
 *.csv
-*.ipynb
 *.pkl
 *.pyc
 data/
@@ -15,3 +14,4 @@ report/
 resources/
 results/
 tb_logs/
+lightning_logs/

@@ -63,18 +63,7 @@ class BaseModel(LightningModule):
 
     def configure_optimizers(self) -> Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler._LRScheduler]:
         """Configure the optimiser and/or lr schedulers"""
-        optimiser = AdamW(
+        return AdamW(
             params=self.parameters(),
             lr=self.hparams.lr,
-            weight_decay=self.hparams.weight_decay,
         )
-        lr_scheduler = {
-            "scheduler": ReduceLROnPlateau(
-                optimiser,
-                factor=self.hparams.reduce_lr_factor,
-                patience=self.hparams.reduce_lr_patience,
-                verbose=True,
-            ),
-            "monitor": "val_loss",
-        }
-        return [optimiser], [lr_scheduler]

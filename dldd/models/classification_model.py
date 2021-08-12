@@ -20,6 +20,7 @@ class ClassificationModel(BaseModel):
         prot_feats=20,
         drug_hidden_dim=64,
         prot_hidden_dim=64,
+        lr=0.001,
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -58,7 +59,7 @@ class ClassificationModel(BaseModel):
         drug_x = self.drug_node_embed(drug_x, drug_edge_index, drug_batch)
         prot_embed = global_mean_pool(prot_x, prot_batch)
         drug_embed = global_mean_pool(drug_x, drug_batch)
-        combined = torch.cat([prot_embed, drug_embed])
+        combined = torch.cat([prot_embed, drug_embed], dim=1)
         prediction = self.mlp(combined)
         return torch.sigmoid(prediction)
 
@@ -82,9 +83,9 @@ class ClassificationModel(BaseModel):
         labels = data.label.unsqueeze(1)
         loss = F.binary_cross_entropy(output, labels.float())
         acc = accuracy(output, labels)
-        auc = auroc(output, labels)
+        # auc = auroc(output, labels)
         return {
             "loss": loss,
             "acc": acc,
-            "auroc": auc,
+            # "auroc": auc,
         }
