@@ -10,6 +10,7 @@ from ..utils.data import TwoGraphData
 from .base_model import BaseModel
 import torch
 
+
 class ClassificationModel(BaseModel):
     """Model for DTI prediction as a classification problem"""
 

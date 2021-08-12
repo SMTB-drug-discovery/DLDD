@@ -1,12 +1,11 @@
 from argparse import ArgumentParser
 
-import torch
 from torch.functional import Tensor
 from torch.nn import BatchNorm1d, Linear, ModuleList, ReLU, Sequential
-from torch_geometric.nn import GINConv, GraphSizeNorm
+from torch_geometric.nn import GINConv
 from torch_geometric.typing import Adj
 
-from ..base_layer import BaseLayer
+from .base_layer import BaseLayer
 
 
 class GINConvNet(BaseLayer):
