@@ -1,0 +1,58 @@
+import os
+import os.path as osp
+
+
+configfile: "config/config.yaml"
+
+
+targets = [x.split(".")[0] for x in os.listdir("resources/structures")]
+
+rinerator_dir = "results/whole"
+
+### DEFINE OUTPUTS ###
+
+output = (
+    "results/prepare_proteins/protein_data_{node_features}_{edge_features}.pkl".format(
+        rinerator="whole",
+        node_features=config["node_features"],
+        edge_features=config["edge_features"],
+    )
+)
+
+
+rule all:
+    input:
+        output,
+
+
+rule create_protein_list:
+    input:
+        ancient(expand("resources/structures/{protein}.pdb", protein=targets)),
+    output:
+        protein_list="results/protein_list.txt",
+    log:
+        "results/logs/create_protein_list.log",
+    script:
+        "scripts/create_protein_list.py"
+
+
+rule rinerator:
+    input:
+        pdb=osp.join("resources/structures", "{protein}.pdb"),
+    output:
+        sif=osp.join("results/rinerator", "{protein}", "{protein}_h.sif"),
+    log:
+        "results/logs/rinerator/{protein}.log",
+    shadow:
+        "shallow"
+    shell:
+        """rinerator {input.pdb} results/rinerator/{wildcards.protein} > {log} 2>&1"""
+
+
+rule prepare_proteins:
+    input:
+        rins=expand('results/rinerator/{protein}/{protein}_h.sif', protein=targets),
+    output:
+        protein_pickle=output,
+    script:
+        "scripts/prepare_proteins.py"

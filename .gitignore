@@ -1,0 +1,17 @@
+.*
+!.gitattributes
+!.gitignore
+!.gitmodules
+!.pre-commit-config.yaml
+!.flake8
+__*__/
+__pycache__/
+*.csv
+*.ipynb
+*.pkl
+*.pyc
+data/
+report/
+resources/
+results/
+tb_logs/
