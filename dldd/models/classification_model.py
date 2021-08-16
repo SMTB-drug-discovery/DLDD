@@ -73,11 +73,11 @@ class ClassificationModel(BaseModel):
             dict: dict with different metrics - losses, accuracies etc. Has to contain 'loss'.
         """
         output = self.forward(
-            data.prot_x,
+            data.protein_x,
             data.drug_x,
-            data.prot_edge_index,
+            data.protein_edge_index,
             data.drug_edge_index,
-            data.prot_x_batch,
+            data.protein_x_batch,
             data.drug_x_batch,
         )
         labels = data.label.unsqueeze(1)
