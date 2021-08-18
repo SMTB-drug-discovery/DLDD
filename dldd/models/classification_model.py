@@ -21,6 +21,7 @@ class ClassificationModel(BaseModel):
         drug_hidden_dim=64,
         prot_hidden_dim=64,
         lr=0.001,
+        **kwargs, # Now you can add some info and it will be saved in hparams
     ):
         super().__init__()
         self.save_hyperparameters()

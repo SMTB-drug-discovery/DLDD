@@ -12,5 +12,6 @@ __pycache__/
 data/
 report/
 results/
-tb_logs/
+logs/
 lightning_logs/
+tb_logs/

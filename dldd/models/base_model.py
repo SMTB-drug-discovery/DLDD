@@ -37,25 +37,23 @@ class BaseModel(LightningModule):
         for name, param in self.named_parameters():
             self.logger.experiment.add_histogram(name, param, self.current_epoch)
 
-    def training_epoch_end(self, outputs):
-        """What to do at the end of a training epoch. Logs everything"""
-        self.log_histograms()
+    def training_epoch_end(self, outputs: dict):
+        """What to do at the end of a train epoch. Logs everything, saves hyperparameters"""
         entries = outputs[0].keys()
-        print("Training:")
+        metrics = {}
         for i in entries:
             val = torch.stack([x[i] for x in outputs]).mean()
-            print(i, val)
-            self.logger.experiment.add_scalar("train_epoch_" + i, val, self.current_epoch)
-
-    def validation_epoch_end(self, outputs):
-        """What to do at the end of a validation epoch. Logs everything"""
+            metrics["train_epoch_" + i] = val
+        self.logger.log_metrics(metrics, self.current_epoch)
+        
+    def validation_epoch_end(self, outputs: dict):
+        """What to do at the end of a val epoch. Logs everything, saves hyperparameters"""
         entries = outputs[0].keys()
-        print("Validation:")
-
+        metrics = {}
         for i in entries:
             val = torch.stack([x[i] for x in outputs]).mean()
-            print(i, val)
-            self.logger.experiment.add_scalar("val_epoch_" + i, val, self.current_epoch)
+            metrics["val_epoch_" + i] = val
+        self.logger.log_metrics(metrics, self.current_epoch)
 
     def test_epoch_end(self, outputs: dict):
         """What to do at the end of a test epoch. Logs everything, saves hyperparameters"""
