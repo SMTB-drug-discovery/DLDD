@@ -43,6 +43,7 @@ class BaseModel(LightningModule):
         entries = outputs[0].keys()
         for i in entries:
             val = torch.stack([x[i] for x in outputs]).mean()
+            print(i, val)
             self.logger.experiment.add_scalar("train_epoch_" + i, val, self.current_epoch)
 
     def validation_epoch_end(self, outputs):
@@ -50,6 +51,7 @@ class BaseModel(LightningModule):
         entries = outputs[0].keys()
         for i in entries:
             val = torch.stack([x[i] for x in outputs]).mean()
+            print(i, val)
             self.logger.experiment.add_scalar("val_epoch_" + i, val, self.current_epoch)
 
     def test_epoch_end(self, outputs: dict):

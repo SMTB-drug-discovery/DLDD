@@ -83,9 +83,9 @@ class ClassificationModel(BaseModel):
         labels = data.label.unsqueeze(1)
         loss = F.binary_cross_entropy(output, labels.float())
         acc = accuracy(output, labels)
-        # auc = auroc(output, labels)
+        auc = auroc(output, labels)
         return {
             "loss": loss,
             "acc": acc,
-            # "auroc": auc,
+            "auroc": auc,
         }
