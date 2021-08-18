@@ -41,6 +41,7 @@ class BaseModel(LightningModule):
         """What to do at the end of a training epoch. Logs everything"""
         self.log_histograms()
         entries = outputs[0].keys()
+        print("Training:")
         for i in entries:
             val = torch.stack([x[i] for x in outputs]).mean()
             print(i, val)
@@ -49,6 +50,8 @@ class BaseModel(LightningModule):
     def validation_epoch_end(self, outputs):
         """What to do at the end of a validation epoch. Logs everything"""
         entries = outputs[0].keys()
+        print("Validation:")
+
         for i in entries:
             val = torch.stack([x[i] for x in outputs]).mean()
             print(i, val)
